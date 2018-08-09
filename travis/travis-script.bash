@@ -70,7 +70,7 @@ function deploy {
     if [ "$TRAVIS_BRANCH" == "prod" ]; then
         AZ_LOCATION=westus2
     fi
-    export KUBECONFIG="${TRAVIS_BUILD_DIR}/hub/secrets/kc-${TRAVIS_BRANCH}.${AZ_LOCATION}.json"
+    export KUBECONFIG="${TRAVIS_BUILD_DIR}/hub/secrets/kc-${TRAVIS_BRANCH}.${AZ_LOCATION}.yml"
     prepare_azure
 
     echo ./deploy.py deploy ${TRAVIS_BRANCH}
