@@ -24,6 +24,12 @@ function prepare_azure {
 		exit 1
 	fi
 
+    if ! jq -r . ${SP} > /dev/null ; then
+        echo "Could not lint azure service principal file."
+        md5sum ${SP}
+        exit 1
+    fi
+
     az login --service-principal \
               -u $(jq -r .name     ${SP}) \
               -p $(jq -r .password ${SP}) \
@@ -64,6 +70,7 @@ function deploy {
 
     chmod 0400 git-crypt.key
 
+    echo "Unlocking repository..."
     git-crypt unlock git-crypt.key
 
     # we are on azure
