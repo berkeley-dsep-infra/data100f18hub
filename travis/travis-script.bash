@@ -24,7 +24,7 @@ function prepare_azure {
 		exit 1
 	fi
 
-    if ! jq -r . ${SP} > /dev/null ; then
+    if ! jq -r . ${SP} > /dev/null 2>&1 ; then
         echo "Could not lint azure service principal file."
         md5sum ${SP}
         exit 1
@@ -69,6 +69,12 @@ function deploy {
         -in git-crypt.key.enc -out ./git-crypt.key -d
 
     chmod 0400 git-crypt.key
+
+    if [ $(head -1 git-crypt.key 2>/dev/null | cut -c2-12) != "GITCRYPTKEY" ];
+    then
+        echo Could not decrypt git-crypt.key.enc.
+        exit 1
+    fi
 
     echo "Unlocking repository..."
     git-crypt unlock git-crypt.key
