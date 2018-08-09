@@ -12,8 +12,8 @@ set -euo pipefail
 # - HUB_COURSE
 # - SUBSCRIPTION_PREFIX
 # travis project settings:
-# - encrypted_56228062df6f_key (created by 'travis encrypt-file')
-# - encrypted_56228062df6f_iv  (created by 'travis encrypt-file')
+# - encrypted_76378860b24f_key (created by 'travis encrypt-file')
+# - encrypted_76378860b24f_iv  (created by 'travis encrypt-file')
 
 function prepare_azure {
     SP="${TRAVIS_BUILD_DIR}/hub/secrets/sp-${TRAVIS_BRANCH}.json"
@@ -58,8 +58,8 @@ function deploy {
     # https://docs.travis-ci.com/user/pull-requests/#Pull-Requests-and-Security-Restrictions
     echo "Fetching git-crypt key..."
     openssl aes-256-cbc \
-        -K $encrypted_ae13e41ac822_key \
-        -iv $encrypted_ae13e41ac822_iv \
+        -K $encrypted_76378860b24f_key \
+        -iv $encrypted_76378860b24f_iv \
         -in git-crypt.key.enc -out ./git-crypt.key -d
 
     chmod 0400 git-crypt.key
