@@ -1,0 +1,84 @@
+version: "v0.6"
+#version: "v0.7-578b3a2"
+
+rbac:
+  enabled: true
+
+hub:
+  db:
+    type: sqlite-pvc
+    pvc:
+      accessModes:
+        - ReadWriteOnce
+      storage: 1Gi
+      storageClassName: azurefile
+  extraConfig: |
+    from kubespawner import KubeSpawner
+    from tornado import gen
+    import yaml
+
+    class CustomKubeSpawner(KubeSpawner):
+      @gen.coroutine
+      def start(self):
+        with open('/etc/jupyterhub/config/custom.memory') as f:
+          custom_attr_lists = yaml.safe_load(f)
+          for attr, users in custom_attr_lists.items():
+            if self.user.name in users:
+              self.mem_limit = attr
+              self.mem_guarantee = attr
+              break
+
+        with open('/etc/jupyterhub/config/custom.image') as f:
+          custom_attr_lists = yaml.safe_load(f)
+          for attr, users in custom_attr_lists.items():
+            if self.user.name in users:
+              self.singleuser_image_spec = attr
+              break
+
+        with open('/etc/jupyterhub/config/custom.volumes') as f:
+          custom_attr_lists = yaml.safe_load(f)
+          for name, volume in custom_attr_lists.items():
+            if self.user.name in volume['users']:
+              # do not duplicate volume or volume mounts
+              has_vol = list(filter(lambda x: x['name'] == name, self.volumes))
+              if len(has_vol) > 0: break
+              self.volumes.append({
+                'name':name, 'hostPath': {'path': volume['hostPath']}
+                })
+              self.volume_mounts.append({
+                'name':name, 'mountPath': volume['mountPath']
+                })
+              break
+
+        return (yield super().start())
+    c.JupyterHub.spawner_class = CustomKubeSpawner
+
+cull:
+  enabled: true
+  timeout: 3600 # default
+
+auth:
+  type: google
+
+singleuser:
+  memory:
+    guarantee: 1G
+    limit: 1G
+  image:
+    name: "berkeleydsep/singleuser-data100"
+    tag: "aab20eb"
+  storage:
+    type: hostPath
+    extraVolumes:
+      - name: home
+        hostPath:
+          path: /mnt/homes/{username}
+      - name: nbgrader
+        hostPath:
+          path: /mnt/homes/_nbgrader
+    extraVolumeMounts:
+      - name: home
+        mountPath: /home/jovyan
+      - name: nbgrader
+        mountPath: /srv/nbgrader
+  #schedulerStrategy: pack

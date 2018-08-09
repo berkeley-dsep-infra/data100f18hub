@@ -1,0 +1,39 @@
+sudo: required
+language: python
+services:
+- docker
+python:
+- 3.6
+
+before_install:
+  - "./travis/az-repo.bash"
+  - "./travis/install-git-crypt.bash"
+  - "./travis/install-kubectl.bash"
+  - "./travis/install-helm.bash"
+  - sudo apt-get install jq
+
+install:
+  - pip install --no-cache-dir pyyaml
+
+script:
+- "./travis/travis-script.bash build"
+
+branches:
+  only:
+    - staging
+    #- prod
+
+deploy:
+  provider: script
+  script: ./travis/travis-script.bash deploy
+  on:
+    branch:
+      - staging
+      #- prod
+
+env:
+  global:
+    - AZ_LOCATION: "westus2"
+    - CLUSTER_ADMIN: "datahub"
+    - HUB_COURSE: "data100"
+    - SUBSCRIPTION_PREFIX: "data100-18f"
