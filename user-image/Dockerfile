@@ -1,7 +1,7 @@
 # Dockerfile for Data100 User Image for Spring 2018
 
 # Basic Ubuntu image creation and setup
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 
 # Core package setup
 RUN apt-get update && \
