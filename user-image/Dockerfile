@@ -89,7 +89,7 @@ ADD ipython_config.py ${CONDA_PREFIX}/envs/data100/etc/ipython/
 
 RUN pip install jupyterhub==0.8.1
 
-RUN pip install psycopg2==2.7.3.2
+RUN pip install psycopg2==2.7.5
 
 # Installed in conda environment
 RUN jupyter serverextension enable --sys-prefix --py jupyterlab
@@ -101,7 +101,7 @@ RUN jupyter nbextension enable --sys-prefix --py nbgrader
 RUN jupyter serverextension enable --sys-prefix --py nbgrader
 
 # For dask dashboard
-RUN pip install git+git://github.com/jupyterhub/nbserverproxy.git@2238cb6
+RUN pip install nbserverproxy==0.8.3
 RUN jupyter serverextension enable --sys-prefix --py nbserverproxy
 
 # Disabling the autosavetime interval
@@ -113,11 +113,11 @@ RUN pip install jupyter_contrib_nbextensions
 # RUN jupyter nbextension enable autosavetime/main
 
 # Install nbgitpuller
-RUN pip install --no-cache-dir nbgitpuller==0.3
-RUN jupyter serverextension enable  --sys-prefix --py nbgitpuller
+RUN pip install --no-cache-dir nbgitpuller==0.6.1
 
 # Install nbzip
-RUN pip install --no-cache-dir git+https://github.com/ryanlovett/nbzip.git@1baaa8c
+RUN pip install --no-cache-dir nbzip==0.1.0
+
 RUN jupyter serverextension enable  --sys-prefix --py nbzip
 RUN jupyter nbextension install     --sys-prefix --py nbzip
 RUN jupyter nbextension enable      --sys-prefix --py nbzip
