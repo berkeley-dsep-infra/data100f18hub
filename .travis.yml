@@ -21,7 +21,7 @@ script:
 branches:
   only:
     - staging
-    #- prod
+    - prod
 
 deploy:
   provider: script
@@ -29,7 +29,7 @@ deploy:
   on:
     branch:
       - staging
-      #- prod
+      - prod
 
 env:
   global:
