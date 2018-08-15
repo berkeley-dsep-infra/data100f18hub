@@ -18,6 +18,9 @@ RUN apt-get update && \
 		curl \
 		wget \
 		vim \
+		texlive-xetex \
+		texlive-fonts-recommended \
+		texlive-generic-recommended \
 		;
 
 # Other packages for user convenience and Data100 usage
@@ -33,9 +36,6 @@ RUN apt-get install --no-install-recommends --yes \
 		postgresql-client \
 		# for nbconvert
 		pandoc \
-		texlive-xetex \
-		texlive-fonts-recommended \
-		texlive-generic-recommended \
 		default-jdk
 
 # Keep image size at a minimum

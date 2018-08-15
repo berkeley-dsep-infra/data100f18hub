@@ -55,11 +55,7 @@ function build {
     ./deploy.py build --commit-range ${TRAVIS_COMMIT_RANGE} ${PUSH}
 }
 
-function deploy {
-    echo "Starting deploy..."
-    REPO="https://github.com/${TRAVIS_REPO_SLUG}"
-    COMMIT="${TRAVIS_COMMIT}"
-
+function unlock_repo {
     # Encrypted variables are only set when we are not a PR
     # https://docs.travis-ci.com/user/pull-requests/#Pull-Requests-and-Security-Restrictions
     echo "Fetching git-crypt key..."
@@ -78,12 +74,22 @@ function deploy {
 
     echo "Unlocking repository..."
     git-crypt unlock git-crypt.key
+}
+
+function deploy {
+    echo "Starting deploy..."
+    REPO="https://github.com/${TRAVIS_REPO_SLUG}"
+    COMMIT="${TRAVIS_COMMIT}"
 
     # we are on azure
     if [ "$TRAVIS_BRANCH" == "prod" ]; then
         AZ_LOCATION=westus2
     fi
-    export KUBECONFIG="${TRAVIS_BUILD_DIR}/hub/secrets/kc-${TRAVIS_BRANCH}.${AZ_LOCATION}.yml"
+
+    unlock_repo
+
+    export KUBECONFIG="${TRAVIS_BUILD_DIR}/hub/secrets/kc-${TRAVIS_BRANCH}.${AZ_LOCATION}.json"
+
     prepare_azure
 
     echo ./deploy.py deploy ${TRAVIS_BRANCH}
