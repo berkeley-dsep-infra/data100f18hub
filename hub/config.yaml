@@ -76,9 +76,16 @@ singleuser:
       - name: nbgrader
         hostPath:
           path: /mnt/homes/_nbgrader
+      - name: newnbgrader1
+        azureFile:
+          secretName: azure-secret
+          shareName: newnbgrader1
+          readOnly: false
     extraVolumeMounts:
       - name: home
         mountPath: /home/jovyan
       - name: nbgrader
         mountPath: /srv/nbgrader
+      - name: newnbgrader1
+        mountPath: /srv/.trash
   #schedulerStrategy: pack
