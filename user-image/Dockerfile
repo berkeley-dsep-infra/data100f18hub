@@ -91,11 +91,8 @@ RUN pip install jupyterhub==0.8.1
 
 RUN pip install psycopg2==2.7.5
 
-# Installed in conda environment
-RUN jupyter serverextension enable --sys-prefix --py jupyterlab
-
 # Configure JuptyerLab to support widgets
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@^0.37
 
 #RUN pip install nbgrader==0.5.4
 RUN pip install git+git://github.com/berkeley-dsep-infra/nbgrader.git@7aba39a
