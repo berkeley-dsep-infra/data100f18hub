@@ -91,6 +91,11 @@ RUN pip install jupyterhub==0.8.1
 
 RUN pip install psycopg2==2.7.5
 
+# JupyterLab installation diagnostics
+RUN jupyter lab --version
+RUN jupyter lab path
+RUN which jupyter-lab
+
 # Configure JuptyerLab to support widgets
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@^0.37
 
