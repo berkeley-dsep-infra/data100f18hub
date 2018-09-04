@@ -66,7 +66,7 @@ USER jovyan
 # Download, install and configure the Conda environment
 
 RUN curl -o /tmp/miniconda.sh \
-	https://repo.continuum.io/miniconda/Miniconda3-4.3.31-Linux-x86_64.sh
+	https://repo.continuum.io/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh
 
 # Install miniconda
 RUN bash /tmp/miniconda.sh -b -u -p ${CONDA_PREFIX}
