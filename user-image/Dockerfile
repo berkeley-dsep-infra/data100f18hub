@@ -66,7 +66,7 @@ USER jovyan
 # Download, install and configure the Conda environment
 
 RUN curl -o /tmp/miniconda.sh \
-	https://repo.continuum.io/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh
+	https://repo.continuum.io/miniconda/Miniconda3-4.3.31-Linux-x86_64.sh
 
 # Install miniconda
 RUN bash /tmp/miniconda.sh -b -u -p ${CONDA_PREFIX}
@@ -91,13 +91,8 @@ RUN pip install jupyterhub==0.8.1
 
 RUN pip install psycopg2==2.7.5
 
-# JupyterLab installation diagnostics
-RUN jupyter lab --version
-RUN jupyter lab path
-RUN which jupyter-lab
-
-# Configure JuptyerLab to support widgets
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@^0.37
+# Installed in conda environment
+RUN jupyter serverextension enable --sys-prefix --py jupyterlab
 
 #RUN pip install nbgrader==0.5.4
 RUN pip install git+git://github.com/berkeley-dsep-infra/nbgrader.git@7aba39a
