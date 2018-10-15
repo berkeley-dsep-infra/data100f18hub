@@ -50,6 +50,13 @@ hub:
                 })
               break
 
+        # emptyDir['sizeLimit']: "1024M"
+        self.volumes.append({
+            'name': 'shm', 'emptyDir': { 'medium': 'Memory' }
+        })
+        self.volume_mounts.append({
+            'name': 'shm', 'mountPath': '/dev/shm'
+        })
         return (yield super().start())
     c.JupyterHub.spawner_class = CustomKubeSpawner
 
