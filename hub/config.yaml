@@ -85,6 +85,9 @@ singleuser:
       - name: nbgrader
         hostPath:
           path: /mnt/homes/_nbgrader
+      - name: taxidb
+        hostPath:
+          path: /srv/db
       #- name: newnbgrader1
       #  azureFile:
       #    secretName: azure-secret
@@ -95,6 +98,25 @@ singleuser:
         mountPath: /home/jovyan
       - name: nbgrader
         mountPath: /srv/nbgrader
+      - name: taxidb
+        mountPath: /srv/db
       #- name: newnbgrader1
       #  mountPath: /srv/.trash
   #schedulerStrategy: pack
+
+#prometheus:
+#  nodeExporter:
+#    updateStrategy:
+#      type: RollingUpdate
+#  alertmanager:
+#    enabled: false
+#  pushgateway:
+#    enabled: false
+#  rbac:
+#    create: true
+#  server:
+#    ingress:
+#      enabled: true
+#      annotations:
+#        kubernetes.io/ingress.class: nginx
+#        kubernetes.io/tls-acme: "true"
