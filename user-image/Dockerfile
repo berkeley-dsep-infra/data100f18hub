@@ -122,6 +122,8 @@ RUN jupyter serverextension enable  --sys-prefix --py nbzip
 RUN jupyter nbextension install     --sys-prefix --py nbzip
 RUN jupyter nbextension enable      --sys-prefix --py nbzip
 
+RUN pip install ray==0.5.3
+
 # Useful for debugging any issues with conda
 RUN conda info -a
 
