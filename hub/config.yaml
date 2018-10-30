@@ -4,6 +4,10 @@ version: "v0.6"
 rbac:
   enabled: true
 
+proxy:
+  nginx:
+    proxyBodySize: 400m
+
 hub:
   db:
     type: sqlite-pvc
