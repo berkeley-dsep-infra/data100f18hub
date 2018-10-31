@@ -99,7 +99,7 @@ def deploy(release):
     with open('hub/config.yaml') as f:
         config = yaml.safe_load(f)
 
-    helm('upgrade', '--install', '--wait',
+    helm('upgrade', '--install', '--force', '--wait',
         release, 'jupyterhub/jupyterhub',
         '--namespace', release,
         '--version', config['version'],
