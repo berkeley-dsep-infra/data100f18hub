@@ -87,7 +87,7 @@ ENV PATH ${CONDA_PREFIX}/envs/data100/bin:$PATH
 ADD jupyter_notebook_config.py ${CONDA_PREFIX}/envs/data100/etc/jupyter/
 ADD ipython_config.py ${CONDA_PREFIX}/envs/data100/etc/ipython/
 
-RUN pip install jupyterhub==0.8.1
+RUN pip install jupyterhub==0.9.2
 
 RUN pip install psycopg2==2.7.5
 
