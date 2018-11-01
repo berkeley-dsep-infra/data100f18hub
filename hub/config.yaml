@@ -62,6 +62,11 @@ hub:
         return (yield super().start())
     c.JupyterHub.spawner_class = CustomKubeSpawner
 
+proxy:
+  https:
+    letsencrypt:
+      contactEmail: rylo@berkeley.edu
+
 cull:
   enabled: true
   timeout: 3600 # default
@@ -75,7 +80,6 @@ singleuser:
     limit: 1G
   image:
     name: "berkeleydsep/singleuser-data100"
-    #tag: "ed53a8c"
   storage:
     type: hostPath
     extraVolumes:
