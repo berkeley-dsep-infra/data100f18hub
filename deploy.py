@@ -96,15 +96,26 @@ def deploy(release):
     # https://github.com/kubernetes/helm/issues/1707
     tagfilename = tag_fragment_file(singleuser_tag)
 
-    with open('hub/config.yaml') as f:
-        config = yaml.safe_load(f)
+    # load up config, get version
+    common_config_file = os.path.join('hub', 'config.yaml')
+    with open(common_config_file) as f:
+        common_config = yaml.safe_load(f)
+    branch_config_file = os.path.join('hub', 'secrets', release + '.yaml')
+    with open(branch_config_file) as f:
+        branch_config = yaml.safe_load(f)
+    if 'version' in branch_config:
+        version = branch_config['version']
+    elif 'version' in common_config:
+        version = common_config['version']
+    else:
+        raise Exception("No 'version' in configuration.")
 
     helm('upgrade', '--install', '--force', '--wait',
         release, 'jupyterhub/jupyterhub',
         '--namespace', release,
-        '--version', config['version'],
-        '-f', 'hub/config.yaml',
-        '-f', os.path.join('hub', 'secrets', release + '.yaml'),
+        '--version', version,
+        '-f', common_config_file,
+        '-f', branch_config_file,
         '-f', tagfilename,
         '--timeout', '3600'
         #'--set', 'singleuser.image.tag={}'.format(singleuser_tag)
