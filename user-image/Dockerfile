@@ -87,7 +87,7 @@ ENV PATH ${CONDA_PREFIX}/envs/data100/bin:$PATH
 ADD jupyter_notebook_config.py ${CONDA_PREFIX}/envs/data100/etc/jupyter/
 ADD ipython_config.py ${CONDA_PREFIX}/envs/data100/etc/ipython/
 
-RUN pip install jupyterhub==0.8.1
+RUN pip install jupyterhub==0.9.2
 
 RUN pip install psycopg2==2.7.5
 
@@ -121,6 +121,8 @@ RUN pip install --no-cache-dir nbzip==0.1.0
 RUN jupyter serverextension enable  --sys-prefix --py nbzip
 RUN jupyter nbextension install     --sys-prefix --py nbzip
 RUN jupyter nbextension enable      --sys-prefix --py nbzip
+
+RUN pip install ray==0.5.3
 
 # Useful for debugging any issues with conda
 RUN conda info -a

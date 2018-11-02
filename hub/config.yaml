@@ -1,4 +1,4 @@
-version: "v0.6"
+#version: "v0.7"
 #version: "v0.7-578b3a2"
 
 rbac:
@@ -50,8 +50,22 @@ hub:
                 })
               break
 
+        # emptyDir['sizeLimit']: "1024M"
+        #if not any(vol['name'] == 'shm' for vol in self.volumes):
+        #    self.volumes.append({
+        #        'name': 'shm', 'emptyDir': { 'medium': 'Memory' }
+        #    })
+        #if not any(vm['name'] == 'shm' for vm in self.volume_mounts):
+        #    self.volume_mounts.append({
+        #        'name': 'shm', 'mountPath': '/dev/shm'
+        #    })
         return (yield super().start())
     c.JupyterHub.spawner_class = CustomKubeSpawner
+
+proxy:
+  https:
+    letsencrypt:
+      contactEmail: rylo@berkeley.edu
 
 cull:
   enabled: true
@@ -66,7 +80,6 @@ singleuser:
     limit: 1G
   image:
     name: "berkeleydsep/singleuser-data100"
-    #tag: "ed53a8c"
   storage:
     type: hostPath
     extraVolumes:
@@ -76,6 +89,9 @@ singleuser:
       - name: nbgrader
         hostPath:
           path: /mnt/homes/_nbgrader
+      #- name: taxidb
+      #  hostPath:
+      #    path: /srv/db
       #- name: newnbgrader1
       #  azureFile:
       #    secretName: azure-secret
@@ -86,6 +102,8 @@ singleuser:
         mountPath: /home/jovyan
       - name: nbgrader
         mountPath: /srv/nbgrader
+      #- name: taxidb
+      #  mountPath: /srv/db
       #- name: newnbgrader1
       #  mountPath: /srv/.trash
   #schedulerStrategy: pack
