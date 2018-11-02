@@ -15,7 +15,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 0
       containers:
-        - image: berkeleydsep/data100-db-pull:v3
+        - image: berkeleydsep/data100-db-pull:v4
           name: db-puller
           env:
           # These two variables changing will restart all the daemonset pods
