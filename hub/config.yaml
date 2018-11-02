@@ -88,9 +88,9 @@ singleuser:
       - name: nbgrader
         hostPath:
           path: /mnt/homes/_nbgrader
-      #- name: taxidb
-      #  hostPath:
-      #    path: /srv/db
+      - name: taxidb
+        hostPath:
+          path: /srv/db
       #- name: newnbgrader1
       #  azureFile:
       #    secretName: azure-secret
@@ -101,8 +101,8 @@ singleuser:
         mountPath: /home/jovyan
       - name: nbgrader
         mountPath: /srv/nbgrader
-      #- name: taxidb
-      #  mountPath: /srv/db
+      - name: taxidb
+        mountPath: /srv/db
       #- name: newnbgrader1
       #  mountPath: /srv/.trash
   #schedulerStrategy: pack
