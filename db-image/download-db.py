@@ -9,28 +9,32 @@ import os
 import time
 from urllib.request import urlretrieve
 
-assert 'DB_URL' in os.environ
-assert 'DB_PATH' in os.environ
+assert 'DB_URLS' in os.environ
+assert 'DB_DIR'  in os.environ
 
 HZ=900
 
-def make_parent_dir(filename):
-    parent_dir = os.path.dirname(filename)
-    if not os.path.exists(parent_dir):
-        os.makedirs(parent_dir)
+def db_path(db_dir, db_url):
+    fname = os.path.basename(db_url)
+    return os.path.join(db_dir, fname)
 
 def main():
-    db_url  = os.environ['DB_URL']
-    db_path = os.environ['DB_PATH']
+    db_urls = os.environ['DB_URLS'].split(';')
+    db_dir  = os.environ['DB_DIR']
 
-    make_parent_dir(db_path)
+    if not os.path.exists(db_dir):
+        os.makedirs(db_dir)
 
     while True:
-        if os.path.exists(db_path):
-            print("{} exists".format(db_path))
-        else:
-            print("{} does not exist. downloading".format(db_path))
-            (filename, headers) = urlretrieve(db_url, db_path)
+        for db_url in db_urls:
+            filename = db_path(db_dir, db_url)
+
+            if os.path.exists(filename):
+                print("{} exists".format(filename))
+                continue
+
+            print("{} does not exist. downloading".format(filename))
+            (filename, headers) = urlretrieve(db_url, filename)
             print("downloaded {}".format(filename))
         time.sleep(HZ)
 

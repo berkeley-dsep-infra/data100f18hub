@@ -90,7 +90,7 @@ singleuser:
           path: /mnt/homes/_nbgrader
       - name: taxidb
         hostPath:
-          path: /srv/db
+          path: /mnt/db
       #- name: newnbgrader1
       #  azureFile:
       #    secretName: azure-secret

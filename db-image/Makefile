@@ -1,5 +1,5 @@
 IMAGE=berkeleydsep/data100-db-pull
-VERSION=v4
+VERSION=v5
 
 build:
 	docker build -t $(IMAGE):$(VERSION) .
