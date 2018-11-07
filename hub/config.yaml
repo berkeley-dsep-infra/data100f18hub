@@ -25,7 +25,7 @@ hub:
     class CustomKubeSpawner(KubeSpawner):
       @gen.coroutine
       def start(self):
-        for attr, users in custom_config.get('memory'. {}).items():
+        for attr, users in custom_config.get('memory', {}).items():
             if self.user.name in users:
               self.mem_limit = attr
               self.mem_guarantee = attr
