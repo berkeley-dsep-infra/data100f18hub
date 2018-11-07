@@ -12,7 +12,8 @@ hub:
         - ReadWriteOnce
       storage: 1Gi
       storageClassName: azurefile
-  extraConfig: |
+  extraConfig:
+   custom-spawner: |
     from kubespawner import KubeSpawner
     from tornado import gen
     import yaml
