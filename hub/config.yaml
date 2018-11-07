@@ -1,5 +1,5 @@
+version: "v0.8-676f4f3"
 #version: "v0.7"
-#version: "v0.7-578b3a2"
 
 rbac:
   enabled: true
@@ -12,32 +12,31 @@ hub:
         - ReadWriteOnce
       storage: 1Gi
       storageClassName: azurefile
-  extraConfig: |
+  extraConfig:
+   custom-spawner: |
     from kubespawner import KubeSpawner
     from tornado import gen
     import yaml
-
+    
+    with open('/etc/jupyterhub/config/values.yaml') as f:
+       custom_config = yaml.safe_load(f).get('custom', {})
+       
+       
     class CustomKubeSpawner(KubeSpawner):
       @gen.coroutine
       def start(self):
-        with open('/etc/jupyterhub/config/custom.memory') as f:
-          custom_attr_lists = yaml.safe_load(f)
-          for attr, users in custom_attr_lists.items():
+        for attr, users in custom_config.get('memory', {}).items():
             if self.user.name in users:
               self.mem_limit = attr
               self.mem_guarantee = attr
               break
 
-        with open('/etc/jupyterhub/config/custom.image') as f:
-          custom_attr_lists = yaml.safe_load(f)
-          for attr, users in custom_attr_lists.items():
+        for attr, users in custom_config.get('image', {}).items():
             if self.user.name in users:
               self.singleuser_image_spec = attr
               break
 
-        with open('/etc/jupyterhub/config/custom.volumes') as f:
-          custom_attr_lists = yaml.safe_load(f)
-          for name, volume in custom_attr_lists.items():
+        for name, volume in custom_config.get('volumes').items():
             if self.user.name in volume['users']:
               # do not duplicate volume or volume mounts
               has_vol = list(filter(lambda x: x['name'] == name, self.volumes))
@@ -50,7 +49,7 @@ hub:
                 })
               break
 
-        # emptyDir['sizeLimit']: "1024M"
+        ## emptyDir['sizeLimit']: "1024M"
         #if not any(vol['name'] == 'shm' for vol in self.volumes):
         #    self.volumes.append({
         #        'name': 'shm', 'emptyDir': { 'medium': 'Memory' }
@@ -89,9 +88,9 @@ singleuser:
       - name: nbgrader
         hostPath:
           path: /mnt/homes/_nbgrader
-      #- name: taxidb
-      #  hostPath:
-      #    path: /srv/db
+      - name: taxidb
+        hostPath:
+          path: /mnt/db
       #- name: newnbgrader1
       #  azureFile:
       #    secretName: azure-secret
@@ -102,8 +101,8 @@ singleuser:
         mountPath: /home/jovyan
       - name: nbgrader
         mountPath: /srv/nbgrader
-      #- name: taxidb
-      #  mountPath: /srv/db
+      - name: taxidb
+        mountPath: /srv/db
       #- name: newnbgrader1
       #  mountPath: /srv/.trash
   #schedulerStrategy: pack

@@ -15,20 +15,20 @@ spec:
     spec:
       terminationGracePeriodSeconds: 0
       containers:
-        - image: berkeleydsep/data100-db-pull:v3
+        - image: berkeleydsep/data100-db-pull:v5
           name: db-puller
           env:
           # These two variables changing will restart all the daemonset pods
-          - name: DB_URL
-            value: "https://s3.amazonaws.com/simon-mo-dev-public/ds100/taxi_2018.sqlite"
-          - name: DB_PATH
-            value: "/srv/db/taxi_2018.sqlite"
+            - name: DB_URLS
+              value: "https://s3.amazonaws.com/simon-mo-dev-public/ds100/taxi_2016_student_small.sqlite;https://s3.amazonaws.com/simon-mo-dev-public/ds100/taxi_2016_test_set.sqlite"
+            - name: DB_DIR
+              value: "/srv/db"
           workingDir: /srv/script
           volumeMounts:
             - name: srvdb
-              mountPath: /srv/db
+              mountPath: "/srv/db"
               readOnly: false
       volumes:
         - name: srvdb
           hostPath:
-            path: /srv/db
+            path: "/mnt/db"
