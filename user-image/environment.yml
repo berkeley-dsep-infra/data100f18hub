@@ -29,7 +29,6 @@ dependencies:
 - jupyter_core=4.4.0
 - lxml=4.1.1
 - matplotlib=2.1.1
-- modin=0.2.2
 - mistune=0.8.3
 - nbconvert=5.3.1
 - nbformat=4.4.0
@@ -59,7 +58,6 @@ dependencies:
 - python-dateutil=2.6.1
 - pytz=2017.3
 - pyzmq=16.0.3
-- ray=0.5.3
 - requests=2.18.4
 - scikit-image=0.13.0
 - scikit-learn=0.19.1
@@ -87,6 +85,8 @@ dependencies:
   - cufflinks==0.12.1
   - jupyterlab==0.31.12
   - oauthlib==2.0.6
+  - modin=0.2.3
+  - ray=0.5.3
   - requests-oauthlib==0.8.0
   - tweepy==3.5.0
   
