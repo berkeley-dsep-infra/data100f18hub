@@ -20,7 +20,7 @@ spec:
           env:
           # These two variables changing will restart all the daemonset pods
             - name: DB_URLS
-              value: "https://s3.amazonaws.com/simon-mo-dev-public/ds100/taxi_2016_student_small.sqlite;https://s3.amazonaws.com/simon-mo-dev-public/ds100/taxi_2016_test_set.sqlite"
+              value: "https://s3.amazonaws.com/simon-mo-dev-public/ds100/taxi_2016_student_small.sqlite;https://s3.amazonaws.com/simon-mo-dev-public/ds100/taxi_2016_test_set.sqlite;https://raw.githubusercontent.com/efang96/ed-dev/master/proj2_test_solutions.csv"
             - name: DB_DIR
               value: "/srv/db"
           workingDir: /srv/script
