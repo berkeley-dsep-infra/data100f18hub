@@ -11,6 +11,7 @@ hub:
       accessModes:
         - ReadWriteOnce
       storage: 1Gi
+      storageClassName: managed-standard
   extraConfig:
    custom-spawner: |
     from kubespawner import KubeSpawner
