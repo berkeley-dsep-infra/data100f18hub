@@ -110,7 +110,7 @@ def deploy(release):
     else:
         raise Exception("No 'version' in configuration.")
 
-    helm('upgrade', '--install', '--force', '--wait',
+    helm('upgrade', '--install', '--wait',
         release, 'jupyterhub/jupyterhub',
         '--namespace', release,
         '--version', version,
