@@ -49,6 +49,30 @@ hub:
                 })
               break
 
+        for user, attr in custom_config.get('agentpool', {}).items():
+            agentpools = ['pool1', 'pool2']
+            if self.user.name == user:
+                agentpools = attr
+            self.extra_pod_config = {
+              'affinity': {
+                'nodeAffinity': {
+                  'requiredDuringSchedulingIgnoredDuringExecution': {
+                    'nodeSelectorTerms': {
+                      'matchExpressions': [
+                        {
+                          'key': 'agentpool',
+                          'operator': 'In',
+                          'values': agentpools
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+
+
+
         ## emptyDir['sizeLimit']: "1024M"
         #if not any(vol['name'] == 'shm' for vol in self.volumes):
         #    self.volumes.append({
