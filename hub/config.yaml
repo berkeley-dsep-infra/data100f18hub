@@ -49,10 +49,13 @@ hub:
                 })
               break
 
-        for user, attr in custom_config.get('agentpool', {}).items():
-            agentpools = ['pool1', 'pool2']
+        agentpool_config = custom_config.get('agentpool', {})
+        default_agentpools = agentpool_config.get('_default', [])
+        for user, attr in agentpool_config.items():
+            agentpools = default_agent_pools
             if self.user.name == user:
                 agentpools = attr
+            if len(agentpools) == 0: continue
             self.extra_pod_config = {
               'affinity': {
                 'nodeAffinity': {
