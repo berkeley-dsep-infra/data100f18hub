@@ -49,6 +49,18 @@ hub:
                 })
               break
 
+        ## Create shm volume -- docker's container limit is too small
+        ## emptyDir['sizeLimit']: "1024M"
+        #if not any(vol['name'] == 'shm' for vol in self.volumes):
+        #    self.volumes.append({
+        #        'name': 'shm', 'emptyDir': { 'medium': 'Memory' }
+        #    })
+        #if not any(vm['name'] == 'shm' for vm in self.volume_mounts):
+        #    self.volume_mounts.append({
+        #        'name': 'shm', 'mountPath': '/dev/shm'
+        #    })
+
+        # Assign users to node pools
         agentpool_config = custom_config.get('agentpool', {})
         default_agentpools = agentpool_config.get('_default', [])
         for user, attr in agentpool_config.items():
@@ -78,15 +90,6 @@ hub:
 
 
 
-        ## emptyDir['sizeLimit']: "1024M"
-        #if not any(vol['name'] == 'shm' for vol in self.volumes):
-        #    self.volumes.append({
-        #        'name': 'shm', 'emptyDir': { 'medium': 'Memory' }
-        #    })
-        #if not any(vm['name'] == 'shm' for vm in self.volume_mounts):
-        #    self.volume_mounts.append({
-        #        'name': 'shm', 'mountPath': '/dev/shm'
-        #    })
         return (yield super().start())
     c.JupyterHub.spawner_class = CustomKubeSpawner
 
