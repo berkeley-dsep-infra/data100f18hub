@@ -19,6 +19,7 @@ RUN apt-get update && \
 		wget \
 		vim \
 		gpg \
+		gpg-agent \
 		texlive-xetex \
 		texlive-fonts-recommended \
 		texlive-generic-recommended \
