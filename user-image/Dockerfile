@@ -3,6 +3,10 @@
 # Basic Ubuntu image creation and setup
 FROM ubuntu:18.04
 
+COPY nodesource.list /etc/apt/sources.list.d/nodesource.list
+COPY nodesource-key.asc /tmp/nodesource-key.asc
+RUN apt-key add /tmp/nodesource-key.asc
+
 # Core package setup
 RUN apt-get update && \
 	apt-get install --yes --no-install-recommends \
@@ -18,6 +22,7 @@ RUN apt-get update && \
 		curl \
 		wget \
 		vim \
+		nodejs \
 		texlive-xetex \
 		texlive-fonts-recommended \
 		texlive-generic-recommended \
@@ -121,6 +126,12 @@ RUN pip install --no-cache-dir nbzip==0.1.0
 RUN jupyter serverextension enable  --sys-prefix --py nbzip
 RUN jupyter nbextension install     --sys-prefix --py nbzip
 RUN jupyter nbextension enable      --sys-prefix --py nbzip
+
+# Install JupyterLab extensions
+RUN jupyter labextension install \
+            @jupyterlab/hub-extension \
+            @jupyter-widgets/jupyterlab-manager \
+            jupyter-matplotlib
 
 # Useful for debugging any issues with conda
 RUN conda info -a
