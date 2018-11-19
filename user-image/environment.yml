@@ -84,8 +84,8 @@ dependencies:
   - cufflinks==0.12.1
   - jupyterlab==0.31.12
   - oauthlib==2.0.6
-  - modin==0.2.3
+  - modin==0.2.4
   - ray==0.5.3
   - requests-oauthlib==0.8.0
   - tweepy==3.5.0
-  
+  - redis==2.10.6  
