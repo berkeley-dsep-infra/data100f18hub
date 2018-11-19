@@ -3,10 +3,6 @@
 # Basic Ubuntu image creation and setup
 FROM ubuntu:18.04
 
-COPY nodesource.list /etc/apt/sources.list.d/nodesource.list
-COPY nodesource-key.asc /tmp/nodesource-key.asc
-RUN apt-key add /tmp/nodesource-key.asc
-
 # Core package setup
 RUN apt-get update && \
 	apt-get install --yes --no-install-recommends \
@@ -22,7 +18,7 @@ RUN apt-get update && \
 		curl \
 		wget \
 		vim \
-		nodejs \
+		gpg \
 		texlive-xetex \
 		texlive-fonts-recommended \
 		texlive-generic-recommended \
@@ -42,6 +38,13 @@ RUN apt-get install --no-install-recommends --yes \
 		# for nbconvert
 		pandoc \
 		default-jdk
+
+COPY nodesource.list /etc/apt/sources.list.d/nodesource.list
+COPY nodesource-key.asc /tmp/nodesource-key.asc
+RUN apt-key add /tmp/nodesource-key.asc
+RUN apt-get update && \
+	apt-get install --yes --no-install-recommends \
+		nodejs
 
 # Keep image size at a minimum
 RUN apt-get clean
