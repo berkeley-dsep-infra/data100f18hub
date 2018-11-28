@@ -4,9 +4,6 @@ version: "v0.8-676f4f3"
 rbac:
   enabled: true
 
-singleuser:
-  defaultUrl: "/tree"
-
 hub:
   db:
     type: sqlite-pvc
@@ -110,6 +107,7 @@ auth:
   type: google
 
 singleuser:
+  defaultUrl: "/tree"
   memory:
     guarantee: 1G
     limit: 1G
