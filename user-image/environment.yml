@@ -90,4 +90,3 @@ dependencies:
   - requests-oauthlib==0.8.0
   - tweepy==3.5.0
   - redis==2.10.6  
-  - datacommons==0.1
