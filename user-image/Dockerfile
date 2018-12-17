@@ -3,6 +3,9 @@
 # Basic Ubuntu image creation and setup
 FROM ubuntu:18.04
 
+# argh
+RUN echo 91.189.91.26 security.ubuntu.com >> /etc/hosts
+
 # Core package setup
 RUN apt-get update && \
 	apt-get install --yes --no-install-recommends \
@@ -24,9 +27,6 @@ RUN apt-get update && \
 		texlive-fonts-recommended \
 		texlive-generic-recommended \
 		;
-
-# argh
-RUN echo 91.189.91.26 security.ubuntu.com >> /etc/hosts
 
 # Other packages for user convenience and Data100 usage
 # Install these without 'recommended' packages to keep image smaller.
