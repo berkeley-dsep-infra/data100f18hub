@@ -38,7 +38,8 @@ RUN apt-get install --no-install-recommends --yes \
 		postgresql-client \
 		# for nbconvert
 		pandoc \
-		default-jdk
+		default-jdk \
+		zip
 
 COPY nodesource.list /etc/apt/sources.list.d/nodesource.list
 COPY nodesource-key.asc /tmp/nodesource-key.asc
