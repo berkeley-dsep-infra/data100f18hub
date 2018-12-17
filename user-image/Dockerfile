@@ -25,9 +25,12 @@ RUN apt-get update && \
 		texlive-generic-recommended \
 		;
 
+# argh
+RUN echo 91.189.91.26 security.ubuntu.com >> /etc/hosts
+
 # Other packages for user convenience and Data100 usage
 # Install these without 'recommended' packages to keep image smaller.
-RUN apt-get install --no-install-recommends --yes \
+RUN apt-get install --no-install-recommends --fix-missing --yes \
 		screen \
 		openssh-client \
 		tmux \
