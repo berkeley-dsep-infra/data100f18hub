@@ -3,6 +3,9 @@
 # Basic Ubuntu image creation and setup
 FROM ubuntu:18.04
 
+# argh
+RUN echo 91.189.91.26 security.ubuntu.com >> /etc/hosts
+
 # Core package setup
 RUN apt-get update && \
 	apt-get install --yes --no-install-recommends \
@@ -27,7 +30,7 @@ RUN apt-get update && \
 
 # Other packages for user convenience and Data100 usage
 # Install these without 'recommended' packages to keep image smaller.
-RUN apt-get install --no-install-recommends --yes \
+RUN apt-get install --no-install-recommends --fix-missing --yes \
 		screen \
 		openssh-client \
 		tmux \
@@ -38,7 +41,8 @@ RUN apt-get install --no-install-recommends --yes \
 		postgresql-client \
 		# for nbconvert
 		pandoc \
-		default-jdk
+		default-jdk \
+		zip
 
 COPY nodesource.list /etc/apt/sources.list.d/nodesource.list
 COPY nodesource-key.asc /tmp/nodesource-key.asc
